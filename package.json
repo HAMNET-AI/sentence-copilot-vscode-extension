@@ -1,0 +1,77 @@
+{
+	"name": "linepilot",
+	"displayName": "Line Pilot",
+	"description": "Line Pilot is a VS Code extension that helps you find the right line snippet from the book you want.",
+	"version": "0.0.1",
+	"publisher": "jingfelix",
+	"icon": "line_pilot_logo.png",
+	"repository": "https://github.com/jingfelix/LinePilot",
+	"engines": {
+		"vscode": "^1.82.2"
+	},
+	"license": "Apache-2.0",
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"*"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "extension.code-clippy-settings",
+				"title": "Line Pilot Settings"
+			}
+		],
+		"configuration": {
+			"title": "Line Pilot Configuration",
+			"properties": {
+				"conf.resource.bookID": {
+					"type": "string",
+					"default": "<BOOK_ID>",
+					"description": "BOOK_ID of the book to search for",
+					"scope": "resource"
+				},"conf.resource.bookAPIBase": {
+					"type": "string",
+					"default": "http://localhost:5050",
+					"description": "API Base for EasySearch",
+					"scope": "resource"
+				},"conf.resource.bookAPIKey": {
+					"type": "string",
+					"default": "<API_KEY>",
+					"description": "API key for EasySearch",
+					"scope": "resource"
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile && npm run esbuild-base -- --minify",
+		"compile": "tsc -p ./",
+		"lint": "eslint . --ext .ts,.tsx",
+		"watch": "tsc -watch -p ./",
+		"download-api": "vscode-dts dev",
+		"postdownload-api": "vscode-dts main",
+		"postinstall": "npm run download-api",
+		"esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --format=cjs --platform=node",
+		"esbuild": "npm run esbuild-base -- --sourcemap",
+		"esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+		"test-compile": "tsc -p ./"
+	},
+	"devDependencies": {
+		"@types/node": "^12.12.0",
+		"@types/node-fetch": "^2.5.10",
+		"@typescript-eslint/eslint-plugin": "^4.16.0",
+		"@typescript-eslint/parser": "^4.16.0",
+		"esbuild": "^0.15.5",
+		"eslint": "^7.21.0",
+		"typescript": "^4.2.2",
+		"vscode-dts": "^0.3.3"
+	},
+	"dependencies": {
+		"@types/jsdom": "^16.2.12",
+		"jsdom": "^16.6.0",
+		"node-fetch": "^2.6.1"
+	}
+}
