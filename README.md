@@ -1,4 +1,4 @@
-# Line Pilot
+# line Copilot
 
 ## Usage
 
