@@ -17,3 +17,4 @@ const configuration = workspace.getConfiguration("line-copilot", undefined);
 
 export const bookID = configuration.get("bookID", "");
 export const apiKey = configuration.get("apiKey", "");
+export const delayTime = configuration.get("completionDelay", 1) * 1000;

@@ -38,6 +38,12 @@
 					"default": "",
 					"description": "API key for EasySearch",
 					"scope": "resource"
+				},
+				"line-copilot.completionDelay": {
+					"type": "number",
+					"minimum": 0.5,
+					"default": 0.5,
+					"description": "The delay in seconds to start getting completions without new change in the editor. You can change this value to get better experience in coding with our extension and to avoid some unuseful completion suggestions."
 				}
 			}
 		}
