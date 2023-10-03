@@ -1,4 +1,4 @@
-# Line Pilot
+# line Copilot
 
 ## Usage
 
@@ -19,7 +19,7 @@
 
 - 在插件设置中，填写 EasySearch 服务器的地址和 BOOK_ID（API_KEY 暂时不用设置）
 
-- 在文件中使用 `++` 触发补全
+- 在文件中使用 「空格」 触发补全
 
 ## Logic
 
