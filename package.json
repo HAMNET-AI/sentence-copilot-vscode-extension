@@ -27,15 +27,15 @@
 		"configuration": {
 			"title": "Line Copilot Configuration",
 			"properties": {
-				"line-copilot.resource.bookID": {
+				"line-copilot.bookID": {
 					"type": "string",
-					"default": "<BOOK_ID>",
+					"default": "9ad2b781-2ae9-4840-a236-f9c09a1a3d1a",
 					"description": "BOOK_ID of the book to search for",
 					"scope": "resource"
 				},
-				"line-copilot.resource.bookAPIKey": {
+				"line-copilot.apiKey": {
 					"type": "string",
-					"default": "<API_KEY>",
+					"default": "",
 					"description": "API key for EasySearch",
 					"scope": "resource"
 				}
