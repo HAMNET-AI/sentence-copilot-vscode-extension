@@ -7,12 +7,15 @@ import { CSConfig ,DEFAULT_API_BASE} from "./config";
 dotenv.config();
 const apiBase = process.env.API_BASE;
 
+interface MyInlineCompletionItem extends vscode.InlineCompletionItem {
+    trackingId: number;
+}
+
 export function activate(context: vscode.ExtensionContext) {
   const disposable = vscode.commands.registerCommand(
     "extension.LineCopilotSettings",
     () => {
-		vscode.commands.executeCommand("workbench.action.openSettings", "conf.resource.bookID");
-
+		vscode.commands.executeCommand("workbench.action.openSettings", "line-copilot");
     }
   );
 
@@ -29,8 +32,8 @@ export function activate(context: vscode.ExtensionContext) {
     ) => {
       const configuration = vscode.workspace.getConfiguration("", document.uri);
       const API_BASE = apiBase || DEFAULT_API_BASE;
-      const BOOK_ID = configuration.get("conf.resource.bookID", "");
-      const API_KEY = configuration.get("conf.resource.bookAPIKey", "");
+      const BOOK_ID = configuration.get("line-copilot.resource.bookID", "");
+      const API_KEY = configuration.get("line-copilot.resource.bookAPIKey", "");
 
       // vscode.comments.createCommentController
       const textBeforeCursor = document.getText();

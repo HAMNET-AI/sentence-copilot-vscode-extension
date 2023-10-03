@@ -1,5 +1,5 @@
 {
-	"name": "linepilot",
+	"name": "line-copilot",
 	"displayName": "Line Copilot",
 	"description": "🍰 Generate concise and engaging fiction sentences effortlessly within the Visual Studio Code (VSCode) editor",
 	"version": "0.0.1",
@@ -27,13 +27,13 @@
 		"configuration": {
 			"title": "Line Copilot Configuration",
 			"properties": {
-				"conf.resource.bookID": {
+				"line-copilot.resource.bookID": {
 					"type": "string",
 					"default": "<BOOK_ID>",
 					"description": "BOOK_ID of the book to search for",
 					"scope": "resource"
 				},
-				"conf.resource.bookAPIKey": {
+				"line-copilot.resource.bookAPIKey": {
 					"type": "string",
 					"default": "<API_KEY>",
 					"description": "API key for EasySearch",
