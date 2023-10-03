@@ -1,5 +1,11 @@
 # Sentence Copilot
 
+
+## Demo
+https://github.com/HAMNET-AI/sentence-copilot-vscode-extension/assets/50035229/f69fbb67-214a-4f27-b83d-42b238504207
+
+
+
 ## Usage
 
 - 安装需要的包
