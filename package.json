@@ -20,24 +20,20 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.code-clippy-settings",
-				"title": "Line Pilot Settings"
+				"command": "extension.LineCopilotSettings",
+				"title": "Line Copilot Settings"
 			}
 		],
 		"configuration": {
-			"title": "Line Pilot Configuration",
+			"title": "Line Copilot Configuration",
 			"properties": {
 				"conf.resource.bookID": {
 					"type": "string",
 					"default": "<BOOK_ID>",
 					"description": "BOOK_ID of the book to search for",
 					"scope": "resource"
-				},"conf.resource.bookAPIBase": {
-					"type": "string",
-					"default": "http://localhost:5050",
-					"description": "API Base for EasySearch",
-					"scope": "resource"
-				},"conf.resource.bookAPIKey": {
+				},
+				"conf.resource.bookAPIKey": {
 					"type": "string",
 					"default": "<API_KEY>",
 					"description": "API key for EasySearch",
@@ -71,6 +67,7 @@
 	},
 	"dependencies": {
 		"@types/jsdom": "^16.2.12",
+		"dotenv": "^16.3.1",
 		"jsdom": "^16.6.0",
 		"node-fetch": "^2.6.1"
 	}
