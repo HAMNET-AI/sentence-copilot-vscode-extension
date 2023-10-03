@@ -29,15 +29,13 @@
 			"properties": {
 				"SentenceCopilot.bookID": {
 					"type": "string",
-					"default": "9ad2b781-2ae9-4840-a236-f9c09a1a3d1a",
-					"description": "BOOK_ID of the book to search for",
-					"scope": "resource"
+					"default": "",
+					"description": "BOOK_ID of the book to search for"
 				},
 				"SentenceCopilot.apiKey": {
 					"type": "string",
 					"default": "",
-					"description": "API key for EasySearch",
-					"scope": "resource"
+					"description": "API key for EasySearch"
 				},
 				"SentenceCopilot.completionDelay": {
 					"type": "number",
