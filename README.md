@@ -1,4 +1,4 @@
-# Line Copilot
+# Sentence Copilot
 
 ## Usage
 
@@ -17,9 +17,9 @@
 
 - 直接从 VSCode 中安装 `vsix` 文件
 
-- 在插件设置中，填写 EasySearch 服务器的地址和 BOOK_ID（API_KEY 暂时不用设置）
+- 在插件设置中，填写 BOOK_ID（API_KEY 暂时不用设置）
 
-- 在文件中使用 「空格」 触发补全
+- 输入文字自动触发原文补全
 
 ## Logic
 
