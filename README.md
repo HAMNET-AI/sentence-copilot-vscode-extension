@@ -1,4 +1,4 @@
-# Line Copilot
+# Sentence Copilot
 
 ## Usage
 
