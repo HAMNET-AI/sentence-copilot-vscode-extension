@@ -98,7 +98,7 @@ export function inlineCompletionProvider(
               position.translate(0, rs.completions.length),
               position
             ),
-            trackingId: `snippet-${i}`,
+            trackingId: `snippet-${someTrackingIdCounter++}`,
           });
         }
         return { items };
