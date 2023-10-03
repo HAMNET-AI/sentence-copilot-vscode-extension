@@ -1,11 +1,11 @@
 {
 	"name": "linepilot",
-	"displayName": "Line Pilot",
-	"description": "Line Pilot is a VS Code extension that helps you find the right line snippet from the book you want.",
+	"displayName": "Line Copilot",
+	"description": "🍰 Generate concise and engaging fiction sentences effortlessly within the Visual Studio Code (VSCode) editor",
 	"version": "0.0.1",
 	"publisher": "jingfelix",
 	"icon": "line_pilot_logo.png",
-	"repository": "https://github.com/jingfelix/LinePilot",
+	"repository": "https://github.com/HAMNET-AI/line-copilot-vscode-extension",
 	"engines": {
 		"vscode": "^1.82.2"
 	},
