@@ -12,7 +12,7 @@ interface MyInlineCompletionItem extends vscode.InlineCompletionItem {
 
 export function activate(context: vscode.ExtensionContext) {
   const disposable = vscode.commands.registerCommand(
-    "extension.LineCopilotSettings",
+    "extension.SentenceCopilotSettings",
     () => {
 		vscode.commands.executeCommand("workbench.action.openSettings", "SentenceCopilot");
     }
