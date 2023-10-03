@@ -14,7 +14,7 @@ export function activate(context: vscode.ExtensionContext) {
   const disposable = vscode.commands.registerCommand(
     "extension.LineCopilotSettings",
     () => {
-		vscode.commands.executeCommand("workbench.action.openSettings", "line-copilot");
+		vscode.commands.executeCommand("workbench.action.openSettings", "SentenceCopilot");
     }
   );
 
