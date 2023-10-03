@@ -4,7 +4,7 @@ import { fetchLineCompletionTexts } from "../utils/fetchCodeCompletions";
 
 let lastRequest = null;
 let someTrackingIdCounter = 0;
-let delay: number = delayTime;
+const delay: number = delayTime;
 
 export function inlineCompletionProvider(
   extensionContext: vscode.ExtensionContext
@@ -48,7 +48,7 @@ export function inlineCompletionProvider(
       const currLineBeforeCursor = document.getText(
         new vscode.Range(position.with(undefined, 0), position)
       );
-      console.log('currLineBeforeCursor',currLineBeforeCursor)
+      console.log('currLineBeforeCursor',currLineBeforeCursor);
 
       // Check if user's state meets one of the trigger criteria
       if (

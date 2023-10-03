@@ -1,6 +1,6 @@
 {
-	"name": "line-copilot",
-	"displayName": "Line Copilot",
+	"name": "sentence-copilot",
+	"displayName": "sentence Copilot",
 	"description": "🍰 Generate concise and engaging fiction sentences effortlessly within the Visual Studio Code (VSCode) editor",
 	"version": "0.0.1",
 	"publisher": "jingfelix",
@@ -20,26 +20,26 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.LineCopilotSettings",
-				"title": "Line Copilot Settings"
+				"command": "extension.SentenceCopilotSettings",
+				"title": "Sentence Copilot Settings"
 			}
 		],
 		"configuration": {
-			"title": "Line Copilot Configuration",
+			"title": "Sentence Copilot Configuration",
 			"properties": {
-				"line-copilot.bookID": {
+				"SentenceCopilot.bookID": {
 					"type": "string",
 					"default": "9ad2b781-2ae9-4840-a236-f9c09a1a3d1a",
 					"description": "BOOK_ID of the book to search for",
 					"scope": "resource"
 				},
-				"line-copilot.apiKey": {
+				"SentenceCopilot.apiKey": {
 					"type": "string",
 					"default": "",
 					"description": "API key for EasySearch",
 					"scope": "resource"
 				},
-				"line-copilot.completionDelay": {
+				"SentenceCopilot.completionDelay": {
 					"type": "number",
 					"minimum": 0.5,
 					"default": 0.5,
