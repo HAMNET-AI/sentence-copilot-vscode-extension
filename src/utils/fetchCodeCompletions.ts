@@ -1,11 +1,17 @@
 import fetch from "node-fetch";
 import { URL } from "url";
+import { CSConfig } from "../config";
 
 export type FetchCodeCompletions = {
     completions: Array<string>
 }
 
 export function fetchLineCompletionTexts(prompt: string, API_BASE: string, API_KEY: string, BOOK_ID: string, timeoutMs = 5000): Promise<FetchCodeCompletions> {
+    prompt = processPrompt(prompt);
+    if (prompt === "") {
+        return Promise.resolve({ completions: [] });
+    }
+    
     // 构建 API 请求 URL，将提示作为查询参数附加到 URL 中
     const API_URL = new URL(`${API_BASE}/book/${BOOK_ID}`);
     API_URL.searchParams.append("prompt", prompt);
@@ -54,4 +60,24 @@ export function fetchLineCompletionTexts(prompt: string, API_BASE: string, API_K
             reject(err);
         });
     });
+}
+
+function processPrompt(prompt: string) {
+    
+    prompt = prompt.trim();
+    let lastEndIndex = -1;
+    for (const endChar of CSConfig.SERACH_CHINESE_END) {
+        const endIndex = prompt.lastIndexOf(endChar);
+        if (endIndex === prompt.length - 1) {
+            continue;
+        }
+        if (endIndex > lastEndIndex) {
+            lastEndIndex = endIndex;
+        }
+    }
+    if (lastEndIndex === -1) {
+        return prompt;
+    } else {
+        return prompt.slice(lastEndIndex + 1);
+    }
 }

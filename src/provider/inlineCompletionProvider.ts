@@ -58,10 +58,10 @@ export function inlineCompletionProvider(
 
         try {
           // 这里需要做一个更好的截断
-          for (let i = currLineBeforeCursor.length - 1; i >= 0; i--) {
-            if (CSConfig.SERACH_CHINESE_END.includes(currLineBeforeCursor[i])) {
+          for (let i = CSConfig.SERACH_CHINESE_END.length - 1; i >= 0; i--) {
+            if (currLineBeforeCursor.endsWith(CSConfig.SERACH_CHINESE_END[i])) {
               rs = await fetchLineCompletionTexts(
-                currLineBeforeCursor,
+                currLineBeforeCursor.slice(0, -1),
                 API_BASE,
                 apiKey,
                 bookID
