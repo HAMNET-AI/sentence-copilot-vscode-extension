@@ -6,60 +6,42 @@ export type FetchCodeCompletions = {
     completions: Array<string>
 }
 
-export function fetchLineCompletionTexts(prompt: string, API_BASE: string, API_KEY: string, BOOK_ID: string, timeoutMs = 5000): Promise<FetchCodeCompletions> {
+export async function fetchLineCompletionTexts(prompt: string, API_BASE: string, API_KEY: string, BOOK_ID: string, timeoutMs = 5000): Promise<FetchCodeCompletions> {
     prompt = processPrompt(prompt);
-    if (prompt === "") {
-        return Promise.resolve({ completions: [] });
-    }
+  
+    if (prompt === "") return { completions: [] };
     
-    // 构建 API 请求 URL，将提示作为查询参数附加到 URL 中
     const API_URL = new URL(`${API_BASE}/book/${BOOK_ID}`);
     API_URL.searchParams.append("prompt", prompt);
 
-    // 定义 HTTP 请求的头部，包括用于授权的 API_KEY
     const headers = { "Authorization": `Bearer ${API_KEY}` };
+  
+    try {
+        
+        const res = await Promise.race([
+            fetch(API_URL.toString(), { method: "GET", headers }),
+            new Promise((_, reject) => setTimeout(() => reject(new Error('Request timed out')), timeoutMs))
+        ]) as any;
+      
+        
+        if (!res.ok) throw new Error("API request failed");
+        
+        const json = await res.json();
 
-    // 返回一个 Promise 以处理 HTTP 请求的异步性质
-    return new Promise((resolve, reject) => {
-        // 设置超时处理
-        const timeout = setTimeout(() => {
-            reject(new Error("Request timed out"));
-        }, timeoutMs);
+        if ((json?.code !== 0) || (json?.data?.results === undefined)) throw Error("Bad response");
 
-        // 发出 HTTP GET 请求并处理响应
-        fetch(API_URL, {
-            method: "GET",
-            headers: headers
-        })
-        .then(res => {
-            clearTimeout(timeout); // 清除超时定时器
-            return res.json(); // 解析 JSON 响应
-        })
-        .then(json => {
-            if ((json?.code === 0) && (json?.data?.results !== undefined)) {
-                const completions = [];
-                for (const result of json.data.results) {
-                    const completion = result.content.trimStart();
-                    if (completion !== "" && completion !== "No results found.") {
-                        const prmptIndex = completion.indexOf(prompt);
-                        if (prmptIndex !== -1) {
-                            completions.push(completion.slice(prmptIndex + prompt.length));
-                        } else {
-                            completions.push(completion);
-                        }
-                    }
-                }
-                resolve({ completions });
-            } else {
-                console.error(json); // 记录错误响应
-                reject(new Error("API request failed"));
-            }
-        })
-        .catch(err => {
-            console.error(err); // 记录其他错误
-            reject(err);
-        });
-    });
+        return {
+            completions: json.data.results.map((result:any)=> {
+                const completion = result.content.trimStart();
+                const prmptIndex = completion.indexOf(prompt);
+                return prmptIndex !== -1 ? completion.slice(prmptIndex + prompt.length) : completion;
+            }).filter((completion :any) => completion && completion !== "No results found.")
+          };
+
+     } catch (err) {
+         console.error(err); 
+         throw err; 
+     }
 }
 
 function processPrompt(prompt: string) {
@@ -80,4 +62,37 @@ function processPrompt(prompt: string) {
     } else {
         return prompt.slice(lastEndIndex + 1);
     }
+}
+
+
+export async function fetchCompletionByLineId(lineId: number, API_BASE: string, API_KEY: string, BOOK_ID: string, timeoutMs = 5000): Promise<FetchCodeCompletions> {
+    const API_URL = new URL(`${API_BASE}/book/${lineId}`);
+
+    const headers = { "Authorization": `Bearer ${API_KEY}` };
+  
+    try {
+        
+        const res = await Promise.race([
+            fetch(API_URL.toString(), { method: "GET", headers }),
+            new Promise((_, reject) => setTimeout(() => reject(new Error('Request timed out')), timeoutMs))
+        ]) as any;
+      
+        
+        if (!res.ok) throw new Error("API request failed");
+        
+        const json = await res.json();
+
+        if ((json?.code !== 0) || (json?.data?.results === undefined)) throw Error("Bad response");
+
+        return {
+            completions: json.data.results.map((result:any)=> {
+                const completion = result.content.trimStart();
+                return  completion;
+            }).filter((completion :any) => completion && completion !== "No results found.")
+          };
+
+     } catch (err) {
+         console.error(err); 
+         throw err; 
+     }
 }
