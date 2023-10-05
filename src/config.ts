@@ -2,7 +2,7 @@
 
 export const CSConfig = {
     SEARCH_PHARSE_END: [' '],
-    SERACH_CHINESE_END: ['，', '。', '……', ' ']
+    SERACH_CHINESE_END: ['，', '。', '……', ' ',',','.']
 };
 
 

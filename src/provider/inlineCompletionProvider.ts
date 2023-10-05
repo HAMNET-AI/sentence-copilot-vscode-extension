@@ -1,5 +1,11 @@
 import * as vscode from "vscode";
-import { CSConfig, DEFAULT_API_BASE, bookID, apiKey, delayTime } from "../config";
+import {
+  CSConfig,
+  DEFAULT_API_BASE,
+  bookID,
+  apiKey,
+  delayTime,
+} from "../config";
 import { fetchLineCompletionTexts } from "../utils/fetchCodeCompletions";
 
 let lastRequest = null;
@@ -18,7 +24,7 @@ export function inlineCompletionProvider(
       context,
       token
     ) => {
-      console.log("new event!"); 
+      console.log("new event!");
 
       // 读取用户配置
       const API_BASE = process.env.API_BASE || DEFAULT_API_BASE;
@@ -35,7 +41,7 @@ export function inlineCompletionProvider(
       lastRequest = requestId;
       await new Promise((f) => setTimeout(f, delay));
       if (lastRequest !== requestId) {
-          return { items: [] };
+        return { items: [] };
       }
       console.log("real to get");
       console.log("new command");
@@ -48,20 +54,19 @@ export function inlineCompletionProvider(
       const currLineBeforeCursor = document.getText(
         new vscode.Range(position.with(undefined, 0), position)
       );
-      console.log('currLineBeforeCursor',currLineBeforeCursor);
+      console.log("currLineBeforeCursor", currLineBeforeCursor);
 
       // Check if user's state meets one of the trigger criteria
-      if (
-        currLineBeforeCursor.trim() != ""
-      ) {
+      if (currLineBeforeCursor.trim() != "") {
         let rs = null;
 
         try {
           // 这里需要做一个更好的截断
           for (let i = CSConfig.SERACH_CHINESE_END.length - 1; i >= 0; i--) {
             if (currLineBeforeCursor.endsWith(CSConfig.SERACH_CHINESE_END[i])) {
+              console.log("hit it", currLineBeforeCursor.slice(0, -1));
               rs = await fetchLineCompletionTexts(
-                currLineBeforeCursor.slice(0, -1),
+                currLineBeforeCursor,
                 API_BASE,
                 apiKey,
                 bookID
