@@ -66,7 +66,7 @@ function processPrompt(prompt: string) {
 
 
 export async function fetchCompletionByLineId(lineId: number, API_BASE: string, API_KEY: string, BOOK_ID: string, timeoutMs = 5000): Promise<FetchCodeCompletions> {
-    const API_URL = new URL(`${API_BASE}/book/${lineId}`);
+    const API_URL = new URL(`${API_BASE}/book/${BOOK_ID}/${lineId}`);
 
     const headers = { "Authorization": `Bearer ${API_KEY}` };
   
