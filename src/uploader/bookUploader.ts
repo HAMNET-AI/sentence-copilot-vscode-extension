@@ -41,7 +41,8 @@ export function bookUploader(path: string) {
             vscode.window.showInformationMessage(`Book ID: ${book_id}`);
         } else {
             console.log(json);
-            vscode.window.showErrorMessage("Upload failed");
+            const msg = json?.msg || "Upload failed";
+            vscode.window.showErrorMessage(msg);
         }
     })
 
