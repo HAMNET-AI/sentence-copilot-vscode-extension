@@ -4,6 +4,7 @@ import { fetchLineCompletionTexts } from "./utils/fetchCodeCompletions";
 // 读取环境变量 .env 文件
 import * as dotenv from "dotenv";
 import { inlineCompletionProvider } from "./provider/inlineCompletionProvider";
+import { bookUploader } from "./uploader/bookUploader";
 dotenv.config();
 
 interface MyInlineCompletionItem extends vscode.InlineCompletionItem {
@@ -25,6 +26,7 @@ export function activate(context: vscode.ExtensionContext) {
     "extension.SentenceCopilotBookUpload",
     (uri: vscode.Uri) => {
       console.log(uri.fsPath);
+      bookUploader(uri.fsPath);
     }
   );
   context.subscriptions.push(bookUploadCommand);
