@@ -20,8 +20,16 @@ export function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(disposable);
 
-  
- const provider = inlineCompletionProvider(context);
+
+  const bookUploadCommand = vscode.commands.registerCommand(
+    "extension.SentenceCopilotBookUpload",
+    (uri: vscode.Uri) => {
+      console.log(uri.fsPath);
+    }
+  );
+  context.subscriptions.push(bookUploadCommand);
+
+  const provider = inlineCompletionProvider(context);
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore

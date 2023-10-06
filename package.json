@@ -22,8 +22,21 @@
 			{
 				"command": "extension.SentenceCopilotSettings",
 				"title": "Sentence Copilot Settings"
+			},
+			{
+				"command": "extension.SentenceCopilotBookUpload",
+				"title": "Sentence Copilot Book Upload"
 			}
 		],
+		"menus": {
+			"explorer/context": [
+				{
+					"when": "resourceScheme == file",
+					"command": "extension.SentenceCopilotBookUpload",
+					"group": "1_modification"
+				}
+			]
+		},
 		"configuration": {
 			"title": "Sentence Copilot Configuration",
 			"properties": {
