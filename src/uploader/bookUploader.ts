@@ -8,7 +8,7 @@ export function bookUploader(path: string) {
     const APU_BASE = process.env.API_BASE || DEFAULT_API_BASE;
     const API_URL = `${APU_BASE}/book`;
 
-    let headers = {
+    const headers = {
         "Authorization": `Bearer ${apiKey}`,
         "Content-Type": "multipart/form-data",
     };
@@ -44,6 +44,6 @@ export function bookUploader(path: string) {
             const msg = json?.msg || "Upload failed";
             vscode.window.showErrorMessage(msg);
         }
-    })
+    });
 
 }
