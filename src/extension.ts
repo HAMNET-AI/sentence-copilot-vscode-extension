@@ -3,7 +3,7 @@ import { fetchLineCompletionTexts } from "./utils/fetchCodeCompletions";
 
 // 读取环境变量 .env 文件
 import * as dotenv from "dotenv";
-import { inlineCompletionProvider } from "./provider/inlineCompletionProvider";
+import { IntellicodeCompletionProvider } from "./provider/inlineCompletionProvider";
 import { bookUploader } from "./uploader/bookUploader";
 dotenv.config();
 
@@ -31,7 +31,8 @@ export function activate(context: vscode.ExtensionContext) {
   );
   context.subscriptions.push(bookUploadCommand);
 
-  const provider = inlineCompletionProvider(context);
+  // const provider = inlineCompletionProvider(context);
+	const provider: vscode.InlineCompletionItemProvider = new IntellicodeCompletionProvider(context);
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
