@@ -11,88 +11,94 @@ import { fetchLineCompletionTexts } from "../utils/fetchCodeCompletions";
 let lastRequest = null;
 const someTrackingIdCounter = 0;
 const delay: number = delayTime;
+export class IntellicodeCompletionProvider
+  implements vscode.InlineCompletionItemProvider
+{
+  private context: vscode.ExtensionContext;
+  constructor(c: vscode.ExtensionContext) {
+    this.context = c;
+  }
 
-export function inlineCompletionProvider(
-  extensionContext: vscode.ExtensionContext
-) {
-  const provider: vscode.InlineCompletionItemProvider = {
-    provideInlineCompletionItems: async (
-      document,
-      position,
-      context,
-      token
-    ) => {
-      console.log("new event!");
+  public async provideInlineCompletionItems(
+    document: vscode.TextDocument,
+    position: vscode.Position,
+    context: vscode.InlineCompletionContext,
+    token: vscode.CancellationToken
+  ): Promise<
+    | vscode.InlineCompletionItem[]
+    | vscode.InlineCompletionList
+    | null
+    | undefined
+  > {
+    console.log("new event!");
+    console.log('this.context.triggerKind',context.triggerKind);
+    console.log('context.selectedCompletionInfo',context.selectedCompletionInfo);
 
-      const API_BASE = process.env.API_BASE || DEFAULT_API_BASE;
-      const editor = vscode.window.activeTextEditor;
+    const API_BASE = process.env.API_BASE || DEFAULT_API_BASE;
+    const editor = vscode.window.activeTextEditor;
 
-      if (!editor) {
-        vscode.window.showInformationMessage(
-          "Please open a file first to use LineCopilot."
-        );
-        return { items: [] };
-      }
-
-      const requestId = new Date().getTime();
-
-      // Delays the triggering
-      lastRequest = requestId;
-      await new Promise((resolve) => setTimeout(resolve, delay));
-
-      if (lastRequest !== requestId) return { items: [] };
-
-      console.log("real to get");
-   
-
-      const textBeforeCursor = document.getText();
-      if (!textBeforeCursor.trim()) return { items: [] };
-
-      // Calculates the current line before cursor once and reuses it
-      const currLineBeforeCursor = document.getText(
-        new vscode.Range(position.with(undefined, 0), position)
+    if (!editor) {
+      vscode.window.showInformationMessage(
+        "Please open a file first to use LineCopilot."
       );
+      return { items: [] };
+    }
 
-      console.log("currLineBeforeCursor", currLineBeforeCursor);
+    const requestId = new Date().getTime();
 
-      if (currLineBeforeCursor.trim()) {
-        let rs;
+    // Delays the triggering
+    lastRequest = requestId;
+    await new Promise((resolve) => setTimeout(resolve, delay));
 
-        try {
-          rs = await fetchLineCompletionTexts(
-            currLineBeforeCursor,
-            API_BASE,
-            apiKey,
-            bookID
-          );
-        } catch (err) {
-          // Simplifies error handling and returns statement
-          if (err instanceof Error)
-            vscode.window.showErrorMessage(err.toString());
-          return { items: [] };
-        }
+    if (lastRequest !== requestId) return { items: [] };
 
-        if (!rs || !rs.completions || !rs.completions.length)
-          return { items: [] };
+    console.log("real to get");
 
-        let trackingIdCounter = 0;
+    const textBeforeCursor = document.getText();
+    if (!textBeforeCursor.trim()) return { items: [] };
 
-        // Maps the result to a new array once instead of pushing in a loop
-        const items: any[] = rs.completions.map((completion) => ({
-          insertText: completion,
-          range: new vscode.Range(
-            position.translate(0, completion.length),
-            position
-          ),
-          trackingId: `snippet-${trackingIdCounter++}`,
-        }));
+    // Calculates the current line before cursor once and reuses it
+    const currLineBeforeCursor = document.getText(
+      new vscode.Range(position.with(undefined, 0), position)
+    );
 
-        return { items };
-      } else {
+    console.log("currLineBeforeCursor", currLineBeforeCursor);
+
+    if (currLineBeforeCursor.trim()) {
+      let rs;
+
+      try {
+        rs = await fetchLineCompletionTexts(
+          currLineBeforeCursor,
+          API_BASE,
+          apiKey,
+          bookID
+        );
+      } catch (err) {
+        // Simplifies error handling and returns statement
+        if (err instanceof Error)
+          vscode.window.showErrorMessage(err.toString());
         return { items: [] };
       }
-    },
-  };
 
-  return provider;
+      if (!rs || !rs.completions || !rs.completions.length)
+        return { items: [] };
+
+      let trackingIdCounter = 0;
+
+      // Maps the result to a new array once instead of pushing in a loop
+      const items: any[] = rs.completions.map((completion) => ({
+        insertText: completion,
+        range: new vscode.Range(
+          position.translate(0, completion.length),
+          position
+        ),
+        trackingId: `snippet-${trackingIdCounter++}`,
+      }));
+
+      return { items };
+    } else {
+      return { items: [] };
+    }
+  }
 }
