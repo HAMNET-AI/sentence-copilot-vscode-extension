@@ -4,7 +4,7 @@ import { fetchLineCompletionTexts } from "./utils/fetchCodeCompletions";
 // 读取环境变量 .env 文件
 import * as dotenv from "dotenv";
 import { IntellicodeCompletionProvider } from "./provider/inlineCompletionProvider";
-import { bookUploader } from "./uploader/bookUploader";
+import { bookUploader } from "./utils/bookUploader";
 dotenv.config();
 
 interface MyInlineCompletionItem extends vscode.InlineCompletionItem {
