@@ -10,6 +10,7 @@
 		"vscode": "^1.82.2"
 	},
 	"license": "Apache-2.0",
+	"enabledApiProposals": ["inlineCompletionsAdditions"],
 	"categories": [
 		"Other"
 	],
@@ -22,8 +23,27 @@
 			{
 				"command": "extension.SentenceCopilotSettings",
 				"title": "Sentence Copilot Settings"
+			},
+			{
+				"command": "extension.SentenceCopilotBookUpload",
+				"title": "Sentence Copilot Book Upload"
 			}
 		],
+		"menus": {
+			"explorer/context": [
+				{
+					"when": "resourceExtname == .txt",
+					"command": "extension.SentenceCopilotBookUpload",
+					"group": "navigation"
+				}
+			],
+			"editor/context": [
+				{
+					"command": "extension.SentenceCopilotBookUpload",
+					"group": "navigation"
+				}
+			]
+		},
 		"configuration": {
 			"title": "Sentence Copilot Configuration",
 			"properties": {
@@ -72,6 +92,7 @@
 	"dependencies": {
 		"@types/jsdom": "^16.2.12",
 		"dotenv": "^16.3.1",
+		"form-data": "^4.0.0",
 		"jsdom": "^16.6.0",
 		"node-fetch": "^2.6.1"
 	}

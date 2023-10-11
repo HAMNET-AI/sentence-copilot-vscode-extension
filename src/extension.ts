@@ -3,7 +3,8 @@ import { fetchLineCompletionTexts } from "./utils/fetchCodeCompletions";
 
 // 读取环境变量 .env 文件
 import * as dotenv from "dotenv";
-import { inlineCompletionProvider } from "./provider/inlineCompletionProvider";
+import { IntellicodeCompletionProvider } from "./provider/inlineCompletionProvider";
+import { bookUploader } from "./utils/bookUploader";
 dotenv.config();
 
 interface MyInlineCompletionItem extends vscode.InlineCompletionItem {
@@ -20,8 +21,18 @@ export function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(disposable);
 
-  
- const provider = inlineCompletionProvider(context);
+
+  const bookUploadCommand = vscode.commands.registerCommand(
+    "extension.SentenceCopilotBookUpload",
+    (uri: vscode.Uri) => {
+      console.log(uri.fsPath);
+      bookUploader(uri.fsPath);
+    }
+  );
+  context.subscriptions.push(bookUploadCommand);
+
+  // const provider = inlineCompletionProvider(context);
+	const provider: vscode.InlineCompletionItemProvider = new IntellicodeCompletionProvider(context);
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore

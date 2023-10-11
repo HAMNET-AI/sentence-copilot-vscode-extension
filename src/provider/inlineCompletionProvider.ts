@@ -11,42 +11,51 @@ import { fetchLineCompletionTexts } from "../utils/fetchCodeCompletions";
 let lastRequest = null;
 const someTrackingIdCounter = 0;
 const delay: number = delayTime;
+export class IntellicodeCompletionProvider
+  implements vscode.InlineCompletionItemProvider
+{
+  private context: vscode.ExtensionContext;
+  constructor(c: vscode.ExtensionContext) {
+    this.context = c;
+  }
 
-export function inlineCompletionProvider(
-  extensionContext: vscode.ExtensionContext
-) {
-  const provider: vscode.InlineCompletionItemProvider = {
-    provideInlineCompletionItems: async (
-      document,
-      position,
-      context,
-      token
-    ) => {
-      console.log("new event!");
+  public async provideInlineCompletionItems(
+    document: vscode.TextDocument,
+    position: vscode.Position,
+    context: vscode.InlineCompletionContext,
+    token: vscode.CancellationToken
+  ): Promise<
+    | vscode.InlineCompletionItem[]
+    | vscode.InlineCompletionList
+    | null
+    | undefined
+  > {
+    console.log("new event!");
+    console.log('this.context.triggerKind',context.triggerKind);
+    console.log('context.selectedCompletionInfo',context.selectedCompletionInfo);
 
-      const API_BASE = process.env.API_BASE || DEFAULT_API_BASE;
-      const editor = vscode.window.activeTextEditor;
+    const API_BASE = process.env.API_BASE || DEFAULT_API_BASE;
+    const editor = vscode.window.activeTextEditor;
 
-      if (!editor) {
-        vscode.window.showInformationMessage(
-          "Please open a file first to use LineCopilot."
-        );
-        return { items: [] };
-      }
+    if (!editor) {
+      vscode.window.showInformationMessage(
+        "Please open a file first to use LineCopilot."
+      );
+      return { items: [] };
+    }
 
-      const requestId = new Date().getTime();
+    const requestId = new Date().getTime();
 
-      // Delays the triggering
-      lastRequest = requestId;
-      await new Promise((resolve) => setTimeout(resolve, delay));
+    // Delays the triggering
+    lastRequest = requestId;
+    await new Promise((resolve) => setTimeout(resolve, delay));
 
-      if (lastRequest !== requestId) return { items: [] };
+    if (lastRequest !== requestId) return { items: [] };
 
-      console.log("real to get");
-   
+    console.log("real to get");
 
-      const textBeforeCursor = document.getText();
-      if (!textBeforeCursor.trim()) return { items: [] };
+    const textBeforeCursor = document.getText();
+    if (!textBeforeCursor.trim()) return { items: [] };
 
       // Calculates the current line before cursor once and reuses it
       const currLineBeforeCursor = document.getText(
@@ -78,8 +87,8 @@ export function inlineCompletionProvider(
           return { items: [] };
         }
 
-        if (!rs || !rs.completions || !rs.completions.length)
-          return { items: [] };
+      if (!rs || !rs.completions || !rs.completions.length)
+        return { items: [] };
 
         let trackingIdCounter = 0;
         
@@ -94,12 +103,9 @@ export function inlineCompletionProvider(
         }));
         // console.log('items',items);
 
-        return { items };
-      } else {
-        return { items: [] };
-      }
-    },
-  };
-
-  return provider;
+      return { items };
+    } else {
+      return { items: [] };
+    }
+  }
 }
