@@ -52,19 +52,25 @@ export function inlineCompletionProvider(
       const currLineBeforeCursor = document.getText(
         new vscode.Range(position.with(undefined, 0), position)
       );
-
-      console.log("currLineBeforeCursor", currLineBeforeCursor);
-
+      // const currLineBeforeCursor = document.getText(new vscode.Selection(
+      //   0,
+      //   0,
+      //   position.line,
+      //   position.character
+      // ));
+      // console.log("currLineBeforeCursor2", currLineBeforeCursor2);
+      
       if (currLineBeforeCursor.trim()) {
         let rs;
-
+        console.log("currLineBeforeCursor", currLineBeforeCursor.trim());
         try {
           rs = await fetchLineCompletionTexts(
-            currLineBeforeCursor,
+            currLineBeforeCursor.trim(),
             API_BASE,
             apiKey,
             bookID
           );
+          
         } catch (err) {
           // Simplifies error handling and returns statement
           if (err instanceof Error)
@@ -76,7 +82,7 @@ export function inlineCompletionProvider(
           return { items: [] };
 
         let trackingIdCounter = 0;
-
+        
         // Maps the result to a new array once instead of pushing in a loop
         const items: any[] = rs.completions.map((completion) => ({
           insertText: completion,
@@ -86,6 +92,7 @@ export function inlineCompletionProvider(
           ),
           trackingId: `snippet-${trackingIdCounter++}`,
         }));
+        // console.log('items',items);
 
         return { items };
       } else {
