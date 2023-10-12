@@ -2,7 +2,8 @@
 
 
 ## Demo
-https://github.com/HAMNET-AI/sentence-copilot-vscode-extension/assets/50035229/f69fbb67-214a-4f27-b83d-42b238504207
+
+https://github.com/HAMNET-AI/sentence-copilot-vscode-extension/assets/50035229/3c1171f6-374c-437b-971c-08ee220c1296
 
 
 
@@ -26,9 +27,3 @@ https://github.com/HAMNET-AI/sentence-copilot-vscode-extension/assets/50035229/f
 - 在插件设置中，填写 BOOK_ID（API_KEY 暂时不用设置）
 
 - 输入文字自动触发原文补全
-
-## Logic
-
-- 当光标前出现 src/config.ts 中设置的触发词时，触发补全
-- 获取当前行的内容，按照中文标点进行划分，获取最后一个中文标点后的内容
-- 将内容发送到 EasySearch 服务器，获取返回的结果
