@@ -19,7 +19,8 @@ export async function fetchLineCompletionTexts(
 
   const API_URL = new URL(`${API_BASE}/book/v1/${BOOK_ID}`);
   API_URL.searchParams.append("prompt", prompt);
-
+  API_URL.searchParams.append("next_number", "3");
+  API_URL.searchParams.append("optional_num", "5");
   const headers = { Authorization: `Bearer ${API_KEY}` };
 
   try {
@@ -41,7 +42,13 @@ export async function fetchLineCompletionTexts(
       completions: json.data.results
         .map((result: any) => {
           const completion = result.content.trimStart();
-          const prmptIndex = completion.indexOf(prompt);
+          const promptLastThree = prompt.length > 3 ? prompt.slice(-3) : prompt;
+          const prmptIndex = completion.indexOf(promptLastThree);
+
+          console.log("completion", completion);
+          console.log("prompt", prompt);
+          console.log("promptIndex", prmptIndex);
+
           return prmptIndex !== -1
             ? completion.slice(prmptIndex + prompt.length)
             : completion;
