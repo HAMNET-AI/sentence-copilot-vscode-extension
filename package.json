@@ -10,7 +10,9 @@
 		"vscode": "^1.82.2"
 	},
 	"license": "Apache-2.0",
-	"enabledApiProposals": ["inlineCompletionsAdditions"],
+	"enabledApiProposals": [
+		"inlineCompletionsAdditions"
+	],
 	"categories": [
 		"Other"
 	],
@@ -27,6 +29,10 @@
 			{
 				"command": "extension.SentenceCopilotBookUpload",
 				"title": "Sentence Copilot Book Upload"
+			},
+			{
+				"command": "extension.nextCompleteNumber",
+				"title": "Sentence Copilot Next Complete Number"
 			}
 		],
 		"menus": {
@@ -62,6 +68,12 @@
 					"minimum": 0.5,
 					"default": 0.5,
 					"description": "The delay in seconds to start getting completions without new change in the editor. You can change this value to get better experience in coding with our extension and to avoid some unuseful completion suggestions."
+				},
+				"SentenceCopilot.nextCompleteNumber": {
+					"type": "number",
+					"minimum": 1,
+					"default": 1,
+					"description": "The number of consecutively completed sentences"
 				}
 			}
 		}

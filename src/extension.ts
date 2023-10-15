@@ -5,22 +5,25 @@ import { fetchLineCompletionTexts } from "./utils/fetchCodeCompletions";
 import * as dotenv from "dotenv";
 import { IntellicodeCompletionProvider } from "./provider/inlineCompletionProvider";
 import { bookUploader } from "./utils/bookUploader";
+import { nextCompleteNumberCommand } from "./provider/optionProvider";
 dotenv.config();
 
 interface MyInlineCompletionItem extends vscode.InlineCompletionItem {
-    trackingId: number;
+  trackingId: number;
 }
 
 export function activate(context: vscode.ExtensionContext) {
   const disposable = vscode.commands.registerCommand(
     "extension.SentenceCopilotSettings",
     () => {
-		vscode.commands.executeCommand("workbench.action.openSettings", "SentenceCopilot");
+      vscode.commands.executeCommand(
+        "workbench.action.openSettings",
+        "SentenceCopilot"
+      );
     }
   );
 
   context.subscriptions.push(disposable);
-
 
   const bookUploadCommand = vscode.commands.registerCommand(
     "extension.SentenceCopilotBookUpload",
@@ -32,7 +35,8 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(bookUploadCommand);
 
   // const provider = inlineCompletionProvider(context);
-	const provider: vscode.InlineCompletionItemProvider = new IntellicodeCompletionProvider(context);
+  const provider: vscode.InlineCompletionItemProvider =
+    new IntellicodeCompletionProvider(context);
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -40,4 +44,12 @@ export function activate(context: vscode.ExtensionContext) {
     { pattern: "**" },
     provider
   );
+
+  const inputNumberCommand = vscode.commands.registerCommand(
+    "extension.nextCompleteNumber",
+    nextCompleteNumberCommand
+  );
+
+  // 注册命令的清理操作
+  context.subscriptions.push(inputNumberCommand);
 }

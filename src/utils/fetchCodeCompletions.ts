@@ -11,6 +11,7 @@ export async function fetchLineCompletionTexts(
   API_BASE: string,
   API_KEY: string,
   BOOK_ID: string,
+  next_number = 1,
   timeoutMs = 5000
 ): Promise<FetchCodeCompletions> {
   prompt = processPrompt(prompt);
@@ -19,7 +20,7 @@ export async function fetchLineCompletionTexts(
 
   const API_URL = new URL(`${API_BASE}/book/v1/${BOOK_ID}`);
   API_URL.searchParams.append("prompt", prompt);
-  API_URL.searchParams.append("next_number", "3");
+  API_URL.searchParams.append("next_number", next_number.toString());
   API_URL.searchParams.append("optional_num", "5");
   const headers = { Authorization: `Bearer ${API_KEY}` };
 
