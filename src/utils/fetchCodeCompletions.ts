@@ -1,9 +1,16 @@
 import fetch from "node-fetch";
 import { URL } from "url";
 import { CSConfig } from "../config";
+import { promises } from "dns";
+import { P } from "nextra/dist/types-fa5ec8b0";
 
 export type FetchCodeCompletions = {
   completions: Array<string>;
+};
+
+export type bookMeta = {
+  book_id: string;
+  name: string;
 };
 
 export async function fetchLineCompletionTexts(
@@ -105,6 +112,36 @@ export async function fetchCompletionByLineId(
           (completion: any) => completion && completion !== "No results found."
         ),
     };
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
+
+export async function fetchAvailableBookMeta(
+  API_BASE: string,
+  API_KEY: string,
+  timeoutMs = 5000
+): Promise<any> {
+  const API_URL = new URL(`${API_BASE}/book`);
+
+  const headers = { Authorization: `Bearer ${API_KEY}` };
+
+  try {
+    const res = (await Promise.race([
+      fetch(API_URL.toString(), { method: "GET", headers }),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("Request timed out")), timeoutMs)
+      ),
+    ])) as any;
+
+    if (!res.ok) throw new Error("API request failed");
+
+    const json = await res.json();
+
+    if (json?.code !== 0) throw Error("Bad response");
+
+    return json.data;
   } catch (err) {
     console.error(err);
     throw err;

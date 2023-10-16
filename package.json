@@ -33,6 +33,10 @@
 			{
 				"command": "extension.nextCompleteNumber",
 				"title": "Sentence Copilot Next Complete Number"
+			},
+			{
+				"command": "extension.chooseBook",
+				"title": "Sentence Copilot Choose Book"
 			}
 		],
 		"menus": {

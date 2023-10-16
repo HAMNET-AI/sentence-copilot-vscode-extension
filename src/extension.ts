@@ -5,7 +5,10 @@ import { fetchLineCompletionTexts } from "./utils/fetchCodeCompletions";
 import * as dotenv from "dotenv";
 import { IntellicodeCompletionProvider } from "./provider/inlineCompletionProvider";
 import { bookUploader } from "./utils/bookUploader";
-import { nextCompleteNumberCommand } from "./provider/optionProvider";
+import {
+  chooseBookCommand,
+  nextCompleteNumberCommand,
+} from "./provider/optionProvider";
 dotenv.config();
 
 interface MyInlineCompletionItem extends vscode.InlineCompletionItem {
@@ -52,4 +55,10 @@ export function activate(context: vscode.ExtensionContext) {
 
   // 注册命令的清理操作
   context.subscriptions.push(inputNumberCommand);
+
+  const aChooseBookCommand = vscode.commands.registerCommand(
+    "extension.chooseBook",
+    chooseBookCommand
+  );
+  context.subscriptions.push(aChooseBookCommand);
 }
