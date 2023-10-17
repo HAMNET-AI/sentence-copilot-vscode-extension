@@ -58,7 +58,7 @@ export const chooseBookCommand = async () => {
       );
 
       vscode.window.showInformationMessage(
-        `已切换摘要书籍: ${selectedBook.lalabel}`
+        `已切换摘要书籍: ${selectedBook.label}`
       );
     }
   } catch (error) {
