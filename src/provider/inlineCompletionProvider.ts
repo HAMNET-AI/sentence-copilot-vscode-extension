@@ -5,7 +5,6 @@ import { workspace } from "vscode";
 import { nextCompleteNumberCommand } from "./optionProvider";
 
 let lastRequest = null;
-const someTrackingIdCounter = 0;
 export class IntellicodeCompletionProvider
   implements vscode.InlineCompletionItemProvider
 {
@@ -95,7 +94,7 @@ export class IntellicodeCompletionProvider
 
       if (!rs || !rs.completions || !rs.completions.length)
         return { items: [] };
-
+      // console.log("rs", rs.completions);
       let trackingIdCounter = 0;
 
       // Maps the result to a new array once instead of pushing in a loop

@@ -52,13 +52,13 @@ export async function fetchLineCompletionTexts(
           const completion = result.content.trimStart();
           const promptLastThree = prompt.length > 3 ? prompt.slice(-3) : prompt;
           const prmptIndex = completion.indexOf(promptLastThree);
-
           console.log("completion", completion);
+          console.log("promptLastThree", promptLastThree);
           console.log("prompt", prompt);
           console.log("promptIndex", prmptIndex);
 
           return prmptIndex !== -1
-            ? completion.slice(prmptIndex + prompt.length)
+            ? completion.slice(prmptIndex+promptLastThree.length)
             : completion;
         })
         .filter(
